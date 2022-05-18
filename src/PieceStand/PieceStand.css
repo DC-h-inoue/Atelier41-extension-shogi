@@ -1,0 +1,19 @@
+.shogi_piece-stand {
+  width: 200px;
+  height: 200px;
+  border: 2px solid black;
+  background-color: rgb(243, 194, 129);
+
+  margin-top: auto;
+}
+
+.shogi_piece-stand:first-child {
+  margin-top: 0;
+}
+
+.shogi_piece-stand > .piece {
+  width: 30px;
+  height: 30px;
+  margin-top: 10px;
+  margin-left: 10px;
+}

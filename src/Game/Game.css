@@ -1,0 +1,16 @@
+.game {
+  display: flex;
+}
+
+.board {
+  margin-top: 50px;
+  margin-left: 50px;
+}
+
+.piece-stand-container {
+  display: flex;
+  flex-direction: column;
+  align-content: space-between;
+  margin-top: 50px;
+  margin-left: 50px;
+}

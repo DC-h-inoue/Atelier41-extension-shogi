@@ -1,0 +1,24 @@
+.piece {
+  width: 50px;
+  height: 50px;
+  background-color: rgb(243, 194, 129);
+
+  border: solid 1px black;
+  font-size: large;
+}
+
+.piece:active {
+  background-color: rgb(224, 161, 90);
+}
+
+.p2 {
+  transform: rotate(180deg);
+}
+
+.clicked-piece {
+  background-color: rgb(224, 161, 90);
+}
+
+.can-move-piece {
+  background-color: rgb(240, 211, 175);
+}
