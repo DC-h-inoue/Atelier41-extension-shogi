@@ -136,11 +136,13 @@ const Game = () => {
         pieceType: PIECE_TYPE.PAWN,
         status: SQUARE_STATUS.NORMAL,
       },
-      {
-        player: PLAYER.P2,
-        pieceType: PIECE_TYPE.PAWN,
-        status: SQUARE_STATUS.NORMAL,
-      },
+      // デバッグのために一時的に歩を消しています
+      new EMPTY_SQUARE(),
+      // {
+      //   player: PLAYER.P2,
+      //   pieceType: PIECE_TYPE.PAWN,
+      //   status: SQUARE_STATUS.NORMAL,
+      // },
     ],
     [
       new EMPTY_SQUARE(),
@@ -289,6 +291,7 @@ const Game = () => {
       },
     ],
   ]);
+  // Player1の駒置き場
   const [player1Pieces, setPlayer1Pieces] = useState([
     { player: PLAYER.P2, pieceType: PIECE_TYPE.LANCE },
     { player: PLAYER.P2, pieceType: PIECE_TYPE.KNIGHT },
@@ -300,6 +303,7 @@ const Game = () => {
     { player: PLAYER.P2, pieceType: PIECE_TYPE.KNIGHT },
     { player: PLAYER.P2, pieceType: PIECE_TYPE.LANCE },
   ]);
+  // Player2の駒置き場
   const [player2Pieces, setPlayer2Pieces] = useState(Array(20));
   // #endregion
   // #region 内部変数
@@ -309,9 +313,11 @@ const Game = () => {
   // #region イベントハンドラ
   const onPieceClick = (rowIndex, columnIndex) => {
     if (selectedPieceLocation === null) {
+      // クリックしたマスに駒が無ければ何もしない
       if (boardPieces[rowIndex][columnIndex].pieceType === PIECE_TYPE.NONE) {
         return;
       }
+
       const newBoardPieces = [...boardPieces];
       newBoardPieces[rowIndex][columnIndex].status = SQUARE_STATUS.CLICKED;
 

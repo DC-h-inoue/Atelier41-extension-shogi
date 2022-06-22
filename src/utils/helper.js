@@ -1,28 +1,59 @@
-import { BOARD_SIZE_COLUMN, BOARD_SIZE_ROW, EMPTY_SQUARE, PIECE_TYPE, SQUARE_STATUS } from "./constants";
+import {
+  BOARD_SIZE_COLUMN,
+  BOARD_SIZE_ROW,
+  EMPTY_SQUARE,
+  MOVABLE_DIRECTIONS,
+  PIECE_TYPE,
+  PLAYER,
+  SQUARE_STATUS,
+} from "./constants";
 
 export function calculateMovableSquare(boardPieces, rowIndex, columnIndex) {
-  switch (boardPieces[rowIndex][columnIndex].pieceType) {
-    case PIECE_TYPE.KING_P1:
-    case PIECE_TYPE.KING_P2:
-      for (let movableRowIndex = rowIndex - 1; movableRowIndex <= rowIndex + 1; movableRowIndex++) {
-        if (movableRowIndex < 0 || movableRowIndex >= BOARD_SIZE_ROW) {
-          continue;
-        }
+  const boardPiece = boardPieces[rowIndex][columnIndex];
+  const piecePlayer = boardPiece.player;
+  const reverse = piecePlayer === PLAYER.P1 ? 1 : -1;
 
-        for (let movableColumnIndex = columnIndex - 1; movableColumnIndex <= columnIndex + 1; movableColumnIndex++) {
-          if (movableColumnIndex < 0 || movableColumnIndex >= BOARD_SIZE_COLUMN) {
-            continue;
-          }
+  // 駒の移動可否判定
+  function getPointCoordinate(movableDirections) {
+    const movableCandidates = movableDirections
+      .map((direction) => {
+        // directionの反転
+        // 自分の位置 + directionで移動先の判定
+        const candidate = {
+          x: rowIndex + direction.x * reverse,
+          y: columnIndex + direction.y * reverse,
+        };
 
-          const boardPiece = boardPieces[movableRowIndex][movableColumnIndex];
-          if (boardPiece.status !== SQUARE_STATUS.CLICKED) {
-            boardPieces[movableRowIndex][movableColumnIndex].status = SQUARE_STATUS.CAN_MOVE;
-          }
+        // 駒が動けるかどうか判定
+        if (isMovableCoordinate(candidate)) {
+          return candidate;
+        } else {
+          return undefined;
         }
-      }
-      break;
-    default:
-      break;
+      })
+      .filter((value) => value);
+
+    return movableCandidates;
+  }
+
+  function getLineCoordinate() {
+    return boardPieces[rowIndex][columnIndex].player === PLAYER.P1 ? -1 : 1;
+  }
+
+  // 駒が動けるかどうか判定
+  function isMovableCoordinate(candidate) {
+    // 盤外の場合は移動不可
+    if (candidate.x < 0 || candidate.x >= BOARD_SIZE_COLUMN || candidate.y < 0 || candidate.y >= BOARD_SIZE_ROW) {
+      return false;
+    }
+    // 自分の駒がある場合は移動不可
+    else if (boardPieces[candidate.x][candidate.y].player === piecePlayer) {
+      return false;
+    }
+    // それ以外なら移動可
+    else {
+      return true;
+    }
   }
 
   return boardPieces;
