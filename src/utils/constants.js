@@ -32,17 +32,18 @@ export function EMPTY_SQUARE() {
   this.status = SQUARE_STATUS.NORMAL;
 }
 
+// rowとcolumnを置き換え！！！！
 export const DIRECTION = {
-  UP: { x: 0, y: -1 },
-  RIGHT_UP: { x: 1, y: -1 },
-  RIGHT: { x: 1, y: 0 },
-  RIGHT_DOWN: { x: 1, y: 1 },
-  DOWN: { x: 0, y: 1 },
-  LEFT_DOWN: { x: -1, y: 1 },
-  LEFT: { x: -1, y: 0 },
-  LEFT_UP: { x: -1, y: -1 },
-  KNIGHT_LEFT: { x: -1, y: -2 },
-  KNIGHT_RIGHT: { x: 1, y: -2 },
+  UP: { row: 0, column: -1 },
+  RIGHT_UP: { row: 1, column: -1 },
+  RIGHT: { row: 1, column: 0 },
+  RIGHT_DOWN: { row: 1, column: 1 },
+  DOWN: { row: 0, column: 1 },
+  LEFT_DOWN: { row: -1, column: 1 },
+  LEFT: { row: -1, column: 0 },
+  LEFT_UP: { row: -1, column: -1 },
+  KNIGHT_LEFT: { row: -1, column: -2 },
+  KNIGHT_RIGHT: { row: 1, column: -2 },
 };
 
 export const MOVABLE_DIRECTIONS = {
@@ -62,5 +63,5 @@ export const MOVABLE_DIRECTIONS = {
   GOLD_GENERAL: "金",
   SILVER_GENERAL: "銀",
   KNIGHT: "桂",
-  PAWN: "歩",
+  PAWN: [DIRECTION.UP],
 };

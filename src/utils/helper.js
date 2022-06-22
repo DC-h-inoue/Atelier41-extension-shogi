@@ -15,25 +15,18 @@ export function calculateMovableSquare(boardPieces, rowIndex, columnIndex) {
 
   // 駒の移動可否判定
   function getPointCoordinate(movableDirections) {
-    const movableCandidates = movableDirections
+    const movableCoordinates = movableDirections
       .map((direction) => {
         // directionの反転
         // 自分の位置 + directionで移動先の判定
-        const candidate = {
-          x: rowIndex + direction.x * reverse,
-          y: columnIndex + direction.y * reverse,
+        return {
+          row: rowIndex + direction.row * reverse,
+          column: columnIndex + direction.column * reverse,
         };
-
-        // 駒が動けるかどうか判定
-        if (isMovableCoordinate(candidate)) {
-          return candidate;
-        } else {
-          return undefined;
-        }
       })
-      .filter((value) => value);
+      .filter((candidate) => isMovableCoordinate(candidate));
 
-    return movableCandidates;
+    return movableCoordinates;
   }
 
   function getLineCoordinate() {
@@ -55,6 +48,22 @@ export function calculateMovableSquare(boardPieces, rowIndex, columnIndex) {
       return true;
     }
   }
+
+  let movableCoordinates;
+
+  switch (boardPiece.pieceType) {
+    case PIECE_TYPE.KING_P1:
+    case PIECE_TYPE.KING_P2:
+      movableCoordinates = getPointCoordinate(MOVABLE_DIRECTIONS.KING);
+      break;
+    case PIECE_TYPE.PAWN:
+      movableCoordinates = getPointCoordinate(MOVABLE_DIRECTIONS.PAWN);
+      break;
+    default:
+      break;
+  }
+
+  movableCoordinates.forEach((candidate) => (boardPieces[candidate.x][candidate.y].status = SQUARE_STATUS.CAN_MOVE));
 
   return boardPieces;
 }
