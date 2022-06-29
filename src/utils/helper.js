@@ -29,8 +29,28 @@ export function calculateMovableSquare(boardPieces, rowIndex, columnIndex) {
     return movableCoordinates;
   }
 
-  function getLineCoordinate() {
-    return boardPieces[rowIndex][columnIndex].player === PLAYER.P1 ? -1 : 1;
+  // 駒の移動可能なライン上の座標を取得
+  function getLineCoordinate(movableDirections) {
+    const candidateDirections = movableDirections
+      .map((direction) => {
+        // directionの反転
+        return {
+          row: direction.row * reverse,
+          column: direction.column * reverse,
+        };
+      });
+
+    // 指定方向で移動可能な座標を取得
+    let movableCoordinates = [];
+    candidateDirections
+      .map((direction) => GetLineMovableCoordinates(direction))
+      .map((candidates) => {
+        candidates.forEach((candidate => {
+          movableCoordinates.push(candidate);
+        }));
+      });
+
+    return movableCoordinates;
   }
 
   // 駒が動けるかどうか判定
@@ -54,6 +74,35 @@ export function calculateMovableSquare(boardPieces, rowIndex, columnIndex) {
     }
   }
 
+  // 指定方向の直線上で移動可能な座標を取得
+  function GetLineMovableCoordinates(direction) {
+    let candidate = {
+      row: rowIndex + direction.row,
+      column: columnIndex + direction.column,
+    };
+
+    let movableCoordinates = [];
+
+    // 移動できない座標、または相手の駒がいる座標まで到達したら終了
+    while (isMovableCoordinate(candidate)) {
+      movableCoordinates.push(candidate);
+
+      // 相手の駒がいる座標ならそれ以上確認しない
+      if (boardPieces[candidate.row][candidate.column].player !== PLAYER.NONE && 
+        boardPieces[candidate.row][candidate.column].player !== piecePlayer) {
+        break;
+      }
+
+      // 次の移動座標候補
+      candidate = {
+        row: candidate.row + direction.row,
+        column: candidate.column + direction.column,
+      }
+    }
+
+    return movableCoordinates;
+  }
+
   let movableCoordinates;
 
   switch (boardPiece.pieceType) {
@@ -63,6 +112,9 @@ export function calculateMovableSquare(boardPieces, rowIndex, columnIndex) {
       break;
     case PIECE_TYPE.PAWN:
       movableCoordinates = getPointCoordinate(MOVABLE_DIRECTIONS.PAWN);
+      break;
+    case PIECE_TYPE.LANCE:
+      movableCoordinates = getLineCoordinate(MOVABLE_DIRECTIONS.LANCE);
       break;
     default:
       break;
