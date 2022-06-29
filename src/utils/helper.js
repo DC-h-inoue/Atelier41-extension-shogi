@@ -30,7 +30,7 @@ export function calculateMovableSquare(boardPieces, rowIndex, columnIndex) {
   }
 
   // 駒の移動可能なライン上の座標を取得
-  function getLineCoordinate(movableDirections) {
+  function getLineCoordinates(movableDirections) {
     const candidateDirections = movableDirections
       .map((direction) => {
         // directionの反転
@@ -40,11 +40,11 @@ export function calculateMovableSquare(boardPieces, rowIndex, columnIndex) {
         };
       });
 
-    // 指定方向で移動可能な座標を取得
+    // 各指定方向で移動可能な座標群を取得
     let movableCoordinates = [];
     candidateDirections
-      .map((direction) => GetLineMovableCoordinates(direction))
-      .map((candidates) => {
+      .map((direction) => getLineCoordinatesByDirection(direction))
+      .forEach((candidates) => {
         candidates.forEach((candidate => {
           movableCoordinates.push(candidate);
         }));
@@ -74,8 +74,11 @@ export function calculateMovableSquare(boardPieces, rowIndex, columnIndex) {
     }
   }
 
-  // 指定方向の直線上で移動可能な座標を取得
-  function GetLineMovableCoordinates(direction) {
+  // 1つの指定方向の直線上で移動可能な座標を取得
+  function getLineCoordinatesByDirection(direction) {
+    const enemyPlayer = piecePlayer === PLAYER.P1 ? PLAYER.P2 : PLAYER.P1;
+
+    // 移動可能な座標候補を計算
     let candidate = {
       row: rowIndex + direction.row,
       column: columnIndex + direction.column,
@@ -87,9 +90,8 @@ export function calculateMovableSquare(boardPieces, rowIndex, columnIndex) {
     while (isMovableCoordinate(candidate)) {
       movableCoordinates.push(candidate);
 
-      // 相手の駒がいる座標ならそれ以上確認しない
-      if (boardPieces[candidate.row][candidate.column].player !== PLAYER.NONE && 
-        boardPieces[candidate.row][candidate.column].player !== piecePlayer) {
+      // 相手の駒がいる座標ならそれより先は確認しない
+      if (boardPieces[candidate.row][candidate.column].player == enemyPlayer) {
         break;
       }
 
@@ -114,7 +116,7 @@ export function calculateMovableSquare(boardPieces, rowIndex, columnIndex) {
       movableCoordinates = getPointCoordinate(MOVABLE_DIRECTIONS.PAWN);
       break;
     case PIECE_TYPE.LANCE:
-      movableCoordinates = getLineCoordinate(MOVABLE_DIRECTIONS.LANCE);
+      movableCoordinates = getLineCoordinates(MOVABLE_DIRECTIONS.LANCE);
       break;
     default:
       break;
