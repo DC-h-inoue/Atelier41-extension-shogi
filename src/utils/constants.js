@@ -34,16 +34,16 @@ export function EMPTY_SQUARE() {
 
 // rowとcolumnを置き換え！！！！
 export const DIRECTION = {
-  UP: { row: 0, column: -1 },
-  RIGHT_UP: { row: 1, column: -1 },
-  RIGHT: { row: 1, column: 0 },
+  UP: { row: -1, column: 0 },
+  RIGHT_UP: { row: -1, column: 1 },
+  RIGHT: { row: 0, column: 1 },
   RIGHT_DOWN: { row: 1, column: 1 },
-  DOWN: { row: 0, column: 1 },
-  LEFT_DOWN: { row: -1, column: 1 },
-  LEFT: { row: -1, column: 0 },
+  DOWN: { row: 1, column: 0 },
+  LEFT_DOWN: { row: 1, column: -1 },
+  LEFT: { row: 0, column: -1 },
   LEFT_UP: { row: -1, column: -1 },
-  KNIGHT_LEFT: { row: -1, column: -2 },
-  KNIGHT_RIGHT: { row: 1, column: -2 },
+  KNIGHT_LEFT: { row: -2, column: -1 },
+  KNIGHT_RIGHT: { row: -2, column: 1 },
 };
 
 export const MOVABLE_DIRECTIONS = {

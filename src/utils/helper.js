@@ -36,11 +36,16 @@ export function calculateMovableSquare(boardPieces, rowIndex, columnIndex) {
   // 駒が動けるかどうか判定
   function isMovableCoordinate(candidate) {
     // 盤外の場合は移動不可
-    if (candidate.x < 0 || candidate.x >= BOARD_SIZE_COLUMN || candidate.y < 0 || candidate.y >= BOARD_SIZE_ROW) {
+    if (
+      candidate.row < 0 ||
+      candidate.row >= BOARD_SIZE_ROW ||
+      candidate.column < 0 ||
+      candidate.column >= BOARD_SIZE_COLUMN
+    ) {
       return false;
     }
     // 自分の駒がある場合は移動不可
-    else if (boardPieces[candidate.x][candidate.y].player === piecePlayer) {
+    else if (boardPieces[candidate.row][candidate.column].player === piecePlayer) {
       return false;
     }
     // それ以外なら移動可
@@ -63,7 +68,9 @@ export function calculateMovableSquare(boardPieces, rowIndex, columnIndex) {
       break;
   }
 
-  movableCoordinates.forEach((candidate) => (boardPieces[candidate.x][candidate.y].status = SQUARE_STATUS.CAN_MOVE));
+  movableCoordinates.forEach(
+    (candidate) => (boardPieces[candidate.row][candidate.column].status = SQUARE_STATUS.CAN_MOVE)
+  );
 
   return boardPieces;
 }
