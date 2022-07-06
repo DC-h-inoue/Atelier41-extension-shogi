@@ -41,7 +41,7 @@ export function calculateMovableSquare(boardPieces, rowIndex, columnIndex) {
       });
 
     // 各指定方向で移動可能な座標群を取得
-    let movableCoordinates = [];
+    const movableCoordinates = [];
     candidateDirections
       .map((direction) => getLineCoordinatesByDirection(direction))
       .forEach((candidates) => {
@@ -79,27 +79,25 @@ export function calculateMovableSquare(boardPieces, rowIndex, columnIndex) {
     const enemyPlayer = piecePlayer === PLAYER.P1 ? PLAYER.P2 : PLAYER.P1;
 
     // 移動可能な座標候補を計算
-    let candidate = {
+    const candidate = {
       row: rowIndex + direction.row,
       column: columnIndex + direction.column,
     };
 
-    let movableCoordinates = [];
+    const movableCoordinates = [];
 
     // 移動できない座標、または相手の駒がいる座標まで到達したら終了
     while (isMovableCoordinate(candidate)) {
-      movableCoordinates.push(candidate);
+      movableCoordinates.push({ ...candidate });
 
       // 相手の駒がいる座標ならそれより先は確認しない
-      if (boardPieces[candidate.row][candidate.column].player == enemyPlayer) {
+      if (boardPieces[candidate.row][candidate.column].player === enemyPlayer) {
         break;
       }
 
       // 次の移動座標候補
-      candidate = {
-        row: candidate.row + direction.row,
-        column: candidate.column + direction.column,
-      }
+      candidate.row += direction.row;
+      candidate.column += direction.column;
     }
 
     return movableCoordinates;
