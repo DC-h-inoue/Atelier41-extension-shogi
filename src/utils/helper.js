@@ -120,7 +120,7 @@ export function calculateMovableSquare(boardPieces, rowIndex, columnIndex) {
       break;
   }
 
-  movableCoordinates.forEach(
+  movableCoordinates?.forEach(
     (candidate) => (boardPieces[candidate.row][candidate.column].status = SQUARE_STATUS.CAN_MOVE)
   );
 
