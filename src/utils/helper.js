@@ -103,6 +103,9 @@ export function calculateMovableSquare(boardPieces, rowIndex, columnIndex) {
     return movableCoordinates;
   }
 
+  clearSelectedOrMovableSquareStatus(boardPieces);
+  boardPiece.status = SQUARE_STATUS.CLICKED;
+
   let movableCoordinates;
 
   switch (boardPiece.pieceType) {
@@ -136,12 +139,18 @@ export function updateBoardPieces(boardPieces, fromLocation, toLocation) {
   boardPieces[toLocation[0]][toLocation[1]] = boardPieces[fromLocation[0]][fromLocation[1]];
   boardPieces[fromLocation[0]][fromLocation[1]] = new EMPTY_SQUARE();
 
-  // 盤面上の駒のステータス更新
+  clearSelectedOrMovableSquareStatus(boardPieces);
+
+  return boardPieces;
+}
+
+// 選択中もしくは移動可能なマスのステータスをリセットする
+function clearSelectedOrMovableSquareStatus(boardPieces){
   boardPieces.forEach((boardPiecesRow) => {
     boardPiecesRow.forEach((boardPiece) => {
+      if(boardPiece.status === SQUARE_STATUS.CAN_MOVE ||
+        boardPiece.status === SQUARE_STATUS.CLICKED)
       boardPiece.status = SQUARE_STATUS.NORMAL;
     });
   });
-
-  return boardPieces;
 }
