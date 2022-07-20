@@ -113,11 +113,26 @@ export function calculateMovableSquare(boardPieces, rowIndex, columnIndex) {
     case PIECE_TYPE.PAWN:
       movableCoordinates = getPointCoordinate(MOVABLE_DIRECTIONS.PAWN);
       break;
+    case PIECE_TYPE.GOLD_GENERAL:
+      movableCoordinates = getPointCoordinate(MOVABLE_DIRECTIONS.GOLD_GENERAL);
+      break;
+    case PIECE_TYPE.SILVER_GENERAL:
+      movableCoordinates = getPointCoordinate(MOVABLE_DIRECTIONS.SILVER_GENERAL);
+      break;
+    case PIECE_TYPE.KNIGHT:
+      movableCoordinates = getPointCoordinate(MOVABLE_DIRECTIONS.KNIGHT);
+      break;
+    case PIECE_TYPE.ROOK:
+      movableCoordinates = getLineCoordinates(MOVABLE_DIRECTIONS.ROOK);
+      break;
+    case PIECE_TYPE.BISHOP:
+      movableCoordinates = getLineCoordinates(MOVABLE_DIRECTIONS.BISHOP);
+      break;
     case PIECE_TYPE.LANCE:
       movableCoordinates = getLineCoordinates(MOVABLE_DIRECTIONS.LANCE);
       break;
     default:
-      break;
+      break;  
   }
 
   movableCoordinates?.forEach(
