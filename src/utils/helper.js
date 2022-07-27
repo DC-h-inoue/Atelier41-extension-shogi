@@ -64,9 +64,6 @@ export function calculateMovableSquare(boardPieces, rowIndex, columnIndex) {
     case PIECE_TYPE.PAWN:
       movableCoordinates = getPointCoordinate(MOVABLE_DIRECTIONS.PAWN);
       break;
-    case PIECE_TYPE.ROOK:
-      movableCoordinates = getPointCoordinate(MOVABLE_DIRECTIONS.ROOK);
-      break;
     default:
       break;
   }
