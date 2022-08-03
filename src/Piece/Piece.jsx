@@ -1,6 +1,6 @@
 // #region import宣言
 import classNames from "classnames";
-import { PLAYER, SQUARE_STATUS } from "../utils/constants";
+import { PLAYER, SQUARE_STATUS, DISPLAYNAME } from "../utils/constants";
 
 import "./Piece.css";
 // #endregion
@@ -41,11 +41,12 @@ const Piece = ({ className, piece, rowIndex, columnIndex, onPieceClick }) => {
         {
           "can-move-piece": piece?.status === SQUARE_STATUS.CAN_MOVE,
           "clicked-piece": piece?.status === SQUARE_STATUS.CLICKED,
-        }
+        },
+        piece?.isPromoted ? "promoted" : "",
       )}
       onClick={() => onPieceClick(rowIndex, columnIndex)}
     >
-      {piece?.pieceType}
+      {DISPLAYNAME(piece)}
     </button>
   );
   // #endregion

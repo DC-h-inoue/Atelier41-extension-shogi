@@ -1,7 +1,7 @@
 import {
   BOARD_SIZE_COLUMN,
   BOARD_SIZE_ROW,
-  EMPTY_SQUARE,
+  SQUARE,
   MOVABLE_DIRECTIONS,
   PIECE_TYPE,
   PLAYER,
@@ -152,7 +152,7 @@ export function updateBoardPieces(boardPieces, fromLocation, toLocation) {
 
   // 駒の移動
   boardPieces[toLocation[0]][toLocation[1]] = boardPieces[fromLocation[0]][fromLocation[1]];
-  boardPieces[fromLocation[0]][fromLocation[1]] = new EMPTY_SQUARE();
+  boardPieces[fromLocation[0]][fromLocation[1]] = new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE);
 
   clearSelectedOrMovableSquareStatus(boardPieces);
 
