@@ -160,7 +160,7 @@ export function updateBoardPieces(boardPieces, fromLocation, toLocation) {
 }
 
 // 選択中もしくは移動可能なマスのステータスをリセットする
-function clearSelectedOrMovableSquareStatus(boardPieces){
+export function clearSelectedOrMovableSquareStatus(boardPieces){
   boardPieces.forEach((boardPiecesRow) => {
     boardPiecesRow.forEach((boardPiece) => {
       if(boardPiece.status === SQUARE_STATUS.CAN_MOVE ||
