@@ -17,6 +17,20 @@ export const PIECE_TYPE = {
   NONE: "",
 };
 
+export function DISPLAYNAME(piece) {
+  if(!piece.isPromoted) return piece.pieceType;
+  switch (piece.pieceType)
+  {
+    case PIECE_TYPE.PAWN: return "と";
+    case PIECE_TYPE.KNIGHT:return "圭";
+    case PIECE_TYPE.LANCE:return "杏";
+    case PIECE_TYPE.SILVER_GENERAL:return "全";
+    case PIECE_TYPE.ROOK:return "竜";
+    case PIECE_TYPE.BISHOP:return "馬";
+    default: return piece.pieceType;
+  }    
+};
+
 export const SQUARE_STATUS = {
   NORMAL: "normal",
   CLICKED: "clicked",
@@ -26,10 +40,11 @@ export const SQUARE_STATUS = {
 export const BOARD_SIZE_ROW = 9;
 export const BOARD_SIZE_COLUMN = 9;
 
-export function EMPTY_SQUARE() {
-  this.player = PLAYER.NONE;
-  this.pieceType = PIECE_TYPE.NONE;
+export function SQUARE(player, pieceType) {
+  this.player = player;
+  this.pieceType = pieceType;
   this.status = SQUARE_STATUS.NORMAL;
+  this.isPromoted = false;
 }
 
 // rowとcolumnを置き換え！！！！
