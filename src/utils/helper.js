@@ -1,12 +1,4 @@
-import {
-  BOARD_SIZE_COLUMN,
-  BOARD_SIZE_ROW,
-  EMPTY_SQUARE,
-  MOVABLE_DIRECTIONS,
-  PIECE_TYPE,
-  PLAYER,
-  SQUARE_STATUS,
-} from "./constants";
+import { BOARD_SIZE_COLUMN, BOARD_SIZE_ROW, MOVABLE_DIRECTIONS, PIECE_TYPE, PLAYER, SQUARE_STATUS } from "./constants";
 
 export function calculateMovableSquare(boardPieces, rowIndex, columnIndex) {
   const boardPiece = boardPieces[rowIndex][columnIndex];
@@ -31,23 +23,22 @@ export function calculateMovableSquare(boardPieces, rowIndex, columnIndex) {
 
   // 駒の移動可能なライン上の座標を取得
   function getLineCoordinates(movableDirections) {
-    const candidateDirections = movableDirections
-      .map((direction) => {
-        // directionの反転
-        return {
-          row: direction.row * reverse,
-          column: direction.column * reverse,
-        };
-      });
+    const candidateDirections = movableDirections.map((direction) => {
+      // directionの反転
+      return {
+        row: direction.row * reverse,
+        column: direction.column * reverse,
+      };
+    });
 
     // 各指定方向で移動可能な座標群を取得
     const movableCoordinates = [];
     candidateDirections
       .map((direction) => getLineCoordinatesByDirection(direction))
       .forEach((candidates) => {
-        candidates.forEach((candidate => {
+        candidates.forEach((candidate) => {
           movableCoordinates.push(candidate);
-        }));
+        });
       });
 
     return movableCoordinates;
@@ -135,7 +126,7 @@ export function calculateMovableSquare(boardPieces, rowIndex, columnIndex) {
       movableCoordinates = getLineCoordinates(MOVABLE_DIRECTIONS.LANCE);
       break;
     default:
-      break;  
+      break;
   }
 
   movableCoordinates?.forEach(
@@ -145,27 +136,12 @@ export function calculateMovableSquare(boardPieces, rowIndex, columnIndex) {
   return boardPieces;
 }
 
-export function updateBoardPieces(boardPieces, fromLocation, toLocation) {
-  // 移動先に駒がある時の処理
-  if (boardPieces[toLocation[0]][toLocation[1]].pieceType !== PIECE_TYPE.NONE) {
-  }
-
-  // 駒の移動
-  boardPieces[toLocation[0]][toLocation[1]] = boardPieces[fromLocation[0]][fromLocation[1]];
-  boardPieces[fromLocation[0]][fromLocation[1]] = new EMPTY_SQUARE();
-
-  clearSelectedOrMovableSquareStatus(boardPieces);
-
-  return boardPieces;
-}
-
 // 選択中もしくは移動可能なマスのステータスをリセットする
-function clearSelectedOrMovableSquareStatus(boardPieces){
+export function clearSelectedOrMovableSquareStatus(boardPieces) {
   boardPieces.forEach((boardPiecesRow) => {
     boardPiecesRow.forEach((boardPiece) => {
-      if(boardPiece.status === SQUARE_STATUS.CAN_MOVE ||
-        boardPiece.status === SQUARE_STATUS.CLICKED)
-      boardPiece.status = SQUARE_STATUS.NORMAL;
+      if (boardPiece.status === SQUARE_STATUS.CAN_MOVE || boardPiece.status === SQUARE_STATUS.CLICKED)
+        boardPiece.status = SQUARE_STATUS.NORMAL;
     });
   });
 }
