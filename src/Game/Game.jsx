@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import Board from "../Board/Board";
 import PieceStand from "../PieceStand/PieceStand";
-import { PLAYER, PIECE_TYPE, SQUARE_STATUS, SQUARE } from "../utils/constants";
+import { PLAYER, PIECE_TYPE, SQUARE_STATUS, SQUARE, BOARD_SIZE_ROW } from "../utils/constants";
 import { calculateMovableSquare, updateBoardPieces } from "../utils/helper";
 
 import "./Game.css";
@@ -169,7 +169,7 @@ const Game = () => {
     else {
       if (clickedPiece.status === SQUARE_STATUS.CAN_MOVE) {
         // 移動可能なマスだった場合、駒を移動して手番を交代する
-        setBoardPieces(updateBoardPieces(boardPieces, selectedPieceLocation, [rowIndex, columnIndex]));
+        const nextBoardPieces = updateBoardPieces(boardPieces, selectedPieceLocation, [rowIndex, columnIndex]);
         setSelectedPieceLocation(null);
         
         // どちらかの王が取られた時点でゲーム終了とする
@@ -178,6 +178,10 @@ const Game = () => {
           setFinishesGame(true);
           return;
         }
+
+        // 成り判定
+        nextBoardPieces[rowIndex][columnIndex].isPromoted = turnPlayer === PLAYER.P1 ? rowIndex < 3 : rowIndex >= BOARD_SIZE_ROW - 3;
+        setBoardPieces(nextBoardPieces);
         
         setTurnPlayer(turnPlayer === PLAYER.P1 ? PLAYER.P2: PLAYER.P1);
       } 
