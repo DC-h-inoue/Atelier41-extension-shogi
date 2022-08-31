@@ -180,7 +180,7 @@ const Game = () => {
         }
 
         // 成り判定
-        nextBoardPieces[rowIndex][columnIndex].isPromoted = turnPlayer === PLAYER.P1 ? rowIndex < 3 : rowIndex >= BOARD_SIZE_ROW - 3;
+        nextBoardPieces[rowIndex][columnIndex].isPromoted = (turnPlayer === PLAYER.P1 ? rowIndex < 3 : rowIndex >= BOARD_SIZE_ROW - 3) || nextBoardPieces[rowIndex][columnIndex].isPromoted ;
         setBoardPieces(nextBoardPieces);
         
         setTurnPlayer(turnPlayer === PLAYER.P1 ? PLAYER.P2: PLAYER.P1);
