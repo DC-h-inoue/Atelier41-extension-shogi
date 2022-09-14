@@ -47,7 +47,6 @@ export function SQUARE(player, pieceType) {
   this.isPromoted = false;
 }
 
-// rowとcolumnを置き換え！！！！
 export const DIRECTION = {
   UP: { row: -1, column: 0 },
   RIGHT_UP: { row: -1, column: 1 },
