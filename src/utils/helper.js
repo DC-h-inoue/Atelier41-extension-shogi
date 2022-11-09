@@ -1,24 +1,16 @@
-import {
-  BOARD_SIZE_COLUMN,
-  BOARD_SIZE_ROW,
-  EMPTY_SQUARE,
-  MOVABLE_DIRECTIONS,
-  PIECE_TYPE,
-  PLAYER,
-  SQUARE_STATUS,
-} from "./constants";
+import { BOARD_SIZE_COLUMN, BOARD_SIZE_ROW, MOVABLE_DIRECTIONS, PIECE_TYPE, PLAYER, SQUARE_STATUS } from "./constants";
 
 export function calculateMovableSquare(boardPieces, rowIndex, columnIndex) {
   const boardPiece = boardPieces[rowIndex][columnIndex];
   const piecePlayer = boardPiece.player;
   const reverse = piecePlayer === PLAYER.P1 ? 1 : -1;
 
-  // 駒の移動可否判定
+  // 駒�?移動可否判�?
   function getPointCoordinate(movableDirections) {
     const movableCoordinates = movableDirections
       .map((direction) => {
         // directionの反転
-        // 自分の位置 + directionで移動先の判定
+        // 自�??位置 + directionで移動�?の判�?
         return {
           row: rowIndex + direction.row * reverse,
           column: columnIndex + direction.column * reverse,
@@ -29,33 +21,32 @@ export function calculateMovableSquare(boardPieces, rowIndex, columnIndex) {
     return movableCoordinates;
   }
 
-  // 駒の移動可能なライン上の座標を取得
+  // 駒�?移動可能なライン上�?座標を取�?
   function getLineCoordinates(movableDirections) {
-    const candidateDirections = movableDirections
-      .map((direction) => {
-        // directionの反転
-        return {
-          row: direction.row * reverse,
-          column: direction.column * reverse,
-        };
-      });
+    const candidateDirections = movableDirections.map((direction) => {
+      // directionの反転
+      return {
+        row: direction.row * reverse,
+        column: direction.column * reverse,
+      };
+    });
 
-    // 各指定方向で移動可能な座標群を取得
+    // �?��定方向で移動可能な座標群を取�?
     const movableCoordinates = [];
     candidateDirections
       .map((direction) => getLineCoordinatesByDirection(direction))
       .forEach((candidates) => {
-        candidates.forEach((candidate => {
+        candidates.forEach((candidate) => {
           movableCoordinates.push(candidate);
-        }));
+        });
       });
 
     return movableCoordinates;
   }
 
-  // 駒が動けるかどうか判定
+  // 駒が動けるかど�?��判�?
   function isMovableCoordinate(candidate) {
-    // 盤外の場合は移動不可
+    // 盤外�?場合�?移動不可
     if (
       candidate.row < 0 ||
       candidate.row >= BOARD_SIZE_ROW ||
@@ -64,7 +55,7 @@ export function calculateMovableSquare(boardPieces, rowIndex, columnIndex) {
     ) {
       return false;
     }
-    // 自分の駒がある場合は移動不可
+    // 自�??駒がある場合�?移動不可
     else if (boardPieces[candidate.row][candidate.column].player === piecePlayer) {
       return false;
     }
@@ -74,11 +65,11 @@ export function calculateMovableSquare(boardPieces, rowIndex, columnIndex) {
     }
   }
 
-  // 1つの指定方向の直線上で移動可能な座標を取得
+  // 1つの�?��方向�?直線上で移動可能な座標を取�?
   function getLineCoordinatesByDirection(direction) {
     const enemyPlayer = piecePlayer === PLAYER.P1 ? PLAYER.P2 : PLAYER.P1;
 
-    // 移動可能な座標候補を計算
+    // 移動可能な座標�?�補を計�?
     const candidate = {
       row: rowIndex + direction.row,
       column: columnIndex + direction.column,
@@ -86,16 +77,16 @@ export function calculateMovableSquare(boardPieces, rowIndex, columnIndex) {
 
     const movableCoordinates = [];
 
-    // 移動できない座標、または相手の駒がいる座標まで到達したら終了
+    // 移動できな�?��標�?�また�?相手�?駒が�?��座標まで到達したら終�?
     while (isMovableCoordinate(candidate)) {
       movableCoordinates.push({ ...candidate });
 
-      // 相手の駒がいる座標ならそれより先は確認しない
+      // 相手�?駒が�?��座標ならそれより�?は確認しな�?
       if (boardPieces[candidate.row][candidate.column].player === enemyPlayer) {
         break;
       }
 
-      // 次の移動座標候補
+      // 次の移動座標�?��?
       candidate.row += direction.row;
       candidate.column += direction.column;
     }
@@ -135,7 +126,7 @@ export function calculateMovableSquare(boardPieces, rowIndex, columnIndex) {
       movableCoordinates = getLineCoordinates(MOVABLE_DIRECTIONS.LANCE);
       break;
     default:
-      break;  
+      break;
   }
 
   movableCoordinates?.forEach(
@@ -145,27 +136,12 @@ export function calculateMovableSquare(boardPieces, rowIndex, columnIndex) {
   return boardPieces;
 }
 
-export function updateBoardPieces(boardPieces, fromLocation, toLocation) {
-  // 移動先に駒がある時の処理
-  if (boardPieces[toLocation[0]][toLocation[1]].pieceType !== PIECE_TYPE.NONE) {
-  }
-
-  // 駒の移動
-  boardPieces[toLocation[0]][toLocation[1]] = boardPieces[fromLocation[0]][fromLocation[1]];
-  boardPieces[fromLocation[0]][fromLocation[1]] = new EMPTY_SQUARE();
-
-  clearSelectedOrMovableSquareStatus(boardPieces);
-
-  return boardPieces;
-}
-
-// 選択中もしくは移動可能なマスのステータスをリセットする
-export function clearSelectedOrMovableSquareStatus(boardPieces){
+// 選択中もしく�?移動可能なマスのス�??タスをリセ�?��する
+export function clearSelectedOrMovableSquareStatus(boardPieces) {
   boardPieces.forEach((boardPiecesRow) => {
     boardPiecesRow.forEach((boardPiece) => {
-      if(boardPiece.status === SQUARE_STATUS.CAN_MOVE ||
-        boardPiece.status === SQUARE_STATUS.CLICKED)
-      boardPiece.status = SQUARE_STATUS.NORMAL;
+      if (boardPiece.status === SQUARE_STATUS.CAN_MOVE || boardPiece.status === SQUARE_STATUS.CLICKED)
+        boardPiece.status = SQUARE_STATUS.NORMAL;
     });
   });
 }
