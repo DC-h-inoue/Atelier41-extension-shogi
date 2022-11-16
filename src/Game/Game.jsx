@@ -1,4 +1,4 @@
-// #region import宣�?
+// #region import宣言
 import { useState } from "react";
 
 import Board from "../Board/Board";
@@ -13,19 +13,19 @@ import "./Game.css";
 // #region 定数
 
 // #endregion
-// #region �?��関数
+// #region 内部関数
 // #endregion
 // #region 公開関数
 // #endregion
 
 // #region 公開モジュール
 /**
- * ゲー�?の進行状況を表示するコンポ�?ネン�?
- * @returns GGBoard、GGPieceStandコンポ�?ネント�?JSX要�?
+ * ゲームの進行状況を表示するコンポーネント
+ * @returns GGBoard、GGPieceStandコンポーネントのJSX要素
  */
 const Game = () => {
   // #region state変数
-  // 選択された駒が存在するかど�?��を判定するフラグ
+  // 選択された駒が存在するかどうかを判定するフラグ
   const [selectedPieceLocation, setSelectedPieceLocation] = useState(null);
 
   // 手番中のプレイヤー
@@ -33,7 +33,7 @@ const Game = () => {
 
   const [finishesGame, setFinishesGame] = useState(false);
 
-  // 盤面の駒�?配置�??�
+  // 盤面の駒の配置情報
   const [boardPieces, setBoardPieces] = useState([
     [
       {
@@ -142,7 +142,7 @@ const Game = () => {
         pieceType: PIECE_TYPE.PAWN,
         status: SQUARE_STATUS.NORMAL,
       },
-      // �?���?��のために�?時的に歩を消して�?���?
+      // デバッグのために一時的に歩を消しています
       new EMPTY_SQUARE(),
       // {
       //   player: PLAYER.P2,
@@ -297,7 +297,7 @@ const Game = () => {
       },
     ],
   ]);
-  // Player1の駒置き�?�
+  // Player1の駒置き場
   const [player1Pieces, setPlayer1Pieces] = useState([
     { player: PLAYER.P1, pieceType: PIECE_TYPE.LANCE },
     { player: PLAYER.P1, pieceType: PIECE_TYPE.KNIGHT },
@@ -309,14 +309,12 @@ const Game = () => {
     { player: PLAYER.P1, pieceType: PIECE_TYPE.KNIGHT },
     { player: PLAYER.P1, pieceType: PIECE_TYPE.LANCE },
   ]);
-  // Player2の駒置き�?�
+  // Player2の駒置き場
   const [player2Pieces, setPlayer2Pieces] = useState([]);
   // #endregion
-  // #region �?��変数
-  // #endregion
-  // #region �?��関数
+  // #region 内部変数
   function updateBoardPieces(fromLocation, toLocation) {
-    // 移動�?に駒がある時�?処�?
+    // 移動先に駒がある時の処理
     if (boardPieces[toLocation[0]][toLocation[1]].pieceType !== PIECE_TYPE.NONE) {
       if (boardPieces[toLocation[0]][toLocation[1]].player === PLAYER.P1) {
         player2Pieces.push({
@@ -333,7 +331,7 @@ const Game = () => {
       }
     }
 
-    // 駒�?移�?
+    // 駒の移動
     boardPieces[toLocation[0]][toLocation[1]] = boardPieces[fromLocation[0]][fromLocation[1]];
     boardPieces[fromLocation[0]][fromLocation[1]] = new EMPTY_SQUARE();
 
@@ -353,19 +351,19 @@ const Game = () => {
 
 
     if (selectedPieceLocation === null) {
-      // 駒を未選択�?場合�??��択す�?
+      // 駒が未選択の場合、駒を選択状態にする
       setSelectedPiece();
       return;
     }
 
     if (clickedPiece.status === SQUARE_STATUS.CAN_MOVE) {
-      // 移動可能なマスを選択した�?�合�??��を移動して手番を交代する
+      // 移動可能なマスだった場合、駒を移動して手番を交代する
       updateBoardPieces(selectedPieceLocation, [rowIndex, columnIndex]);
       setSelectedPieceLocation(null);
       
-      // どちらかの王が取られた時点でゲー�?終�?��する
+      // どちらかの王が取られた時点でゲーム終了とする
       if(clickedPiece.pieceType === PIECE_TYPE.KING_P1 || clickedPiece.pieceType === PIECE_TYPE.KING_P2){
-        alert(`${turnPlayer}の勝ちで�?`);
+        alert(`${turnPlayer}の勝ちで�?`);
         setFinishesGame(true);
         return;
       }
@@ -374,20 +372,20 @@ const Game = () => {
     } 
     else {
       if(clickedPiece.player == PLAYER.NONE){
-        // 駒がな�??スを選択した�?�合�??��択をキャンセルする
+        // 駒がないマスを選択した場合、選択をキャンセルする
         clearSelectedOrMovableSquareStatus(boardPieces);
         setSelectedPieceLocation(null);
       }
       if(clickedPiece.player === turnPlayer && 
           rowIndex !== selectedPieceLocation.rowIndex && 
           columnIndex !== selectedPieceLocation.columnIndex){
-        // 手番のプレイヤーの別の駒を選択した�?�合�?��?旦盤面をデフォルト状態にリセ�?��してから
+        // 手番中のプレイヤー別の駒を選択した場合、一旦盤面をデフォルト状態にリセットしてから
         // 選択した駒を設定しなおす
         setSelectedPiece();
       }
     }
 
-    // 選択した駒を設定す�?
+    // 選択した駒を選択状態にする
     function setSelectedPiece() {
       if (!isTurnPlayersPiece()) return;
 
@@ -395,22 +393,22 @@ const Game = () => {
       setSelectedPieceLocation([rowIndex, columnIndex]);
     }
 
-    // クリ�?��した駒が自�??駒か
+    // クリックした駒が自分の駒か
     function isTurnPlayersPiece() {
-      // クリ�?��したマスに駒が無ければ何もしな�?
+      // クリックしたマスに駒が無ければ何もしない
       if (clickedPiece.pieceType === PIECE_TYPE.NONE) return false;
 
-      // 相手�?レイヤーの駒選択時は何もしな�?
+      // 相手プレイヤーの駒選択時は何もしない
       if (clickedPiece.player !== turnPlayer) return false;
 
       return true;
     }
   };
   // #endregion
-  // #region 副作用処�?
+  // #region 副作用処理
   // #endregion
 
-  // #region レン�?リング処�?
+  // #region レンダリング処理
   return (
     <div className="game">
       <Board className="board" boardPieces={boardPieces} onPieceClick={onPieceClick} />
