@@ -162,12 +162,14 @@ const Game = () => {
           ...clickedPiece,
           player: PLAYER.P2,
           status: SQUARE_STATUS.NORMAL,
+          isPromoted: false,
         });
       } else {
         player1Pieces.push({
           ...clickedPiece,
           player: PLAYER.P1,
           status: SQUARE_STATUS.NORMAL,
+          isPromoted: false,
         });
       }
     }
