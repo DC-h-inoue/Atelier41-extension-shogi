@@ -151,8 +151,6 @@ const Game = () => {
   const [player2Pieces, setPlayer2Pieces] = useState([]);
   // #endregion
   // #region 内部変数
-  // #endregion
-  // #region 内部関数
   function updateBoardPieces(fromLocation, toLocation) {
 
     const clickedPiece = boardPieces[toLocation[0]][toLocation[1]];
@@ -206,33 +204,43 @@ const Game = () => {
 
     const clickedPiece = boardPieces[rowIndex][columnIndex];
 
-    // 駒未選択状態
-    if (selectedPieceLocation === null) {
-      setSelectedPiece();
-    }
-    // 駒選択状態
-    else {
-      if (clickedPiece.status === SQUARE_STATUS.CAN_MOVE) {
-        // 移動可能なマスだった場合、駒を移動して手番を交代する
-        updateBoardPieces(selectedPieceLocation, [rowIndex, columnIndex]);
-        setSelectedPieceLocation(null);
-      
 
-        setTurnPlayer(turnPlayer === PLAYER.P1 ? PLAYER.P2 : PLAYER.P1);
-      } else {
-        if (
-          clickedPiece.player === turnPlayer &&
-          rowIndex !== selectedPieceLocation.rowIndex &&
-          columnIndex !== selectedPieceLocation.columnIndex
-        ) {
-          // 手番中のプレイヤー別の駒を選択した場合、一旦盤面をデフォルト状態にリセットしてから
-          // 選択した駒を設定しなおす
-          setSelectedPiece();
-        }
+    if (selectedPieceLocation === null) {
+      // 駒が未選択の場合、駒を選択状態にする
+      setSelectedPiece();
+      return;
+    }
+
+    if (clickedPiece.status === SQUARE_STATUS.CAN_MOVE) {
+      // 移動可能なマスだった場合、駒を移動して手番を交代する
+      updateBoardPieces(selectedPieceLocation, [rowIndex, columnIndex]);
+      setSelectedPieceLocation(null);
+      
+      // どちらかの王が取られた時点でゲーム終了とする
+      if(clickedPiece.pieceType === PIECE_TYPE.KING_P1 || clickedPiece.pieceType === PIECE_TYPE.KING_P2){
+        alert(`${turnPlayer}の勝ちです`);
+        setFinishesGame(true);
+        return;
+      }
+      
+      setTurnPlayer(turnPlayer === PLAYER.P1 ? PLAYER.P2: PLAYER.P1);
+    } 
+    else {
+      if(clickedPiece.player === PLAYER.NONE){
+        // 駒がないマスを選択した場合、選択をキャンセルする
+        clearSelectedOrMovableSquareStatus(boardPieces);
+        setSelectedPieceLocation(null);
+      }
+      if(clickedPiece.player === turnPlayer && 
+          rowIndex !== selectedPieceLocation.rowIndex && 
+          columnIndex !== selectedPieceLocation.columnIndex){
+        // 手番中のプレイヤー別の駒を選択した場合、一旦盤面をデフォルト状態にリセットしてから
+        // 選択した駒を設定しなおす
+        setSelectedPiece();
       }
     }
 
-    // 選択した駒を設定する
+    // 選択した駒を選択状態にする
     function setSelectedPiece() {
       if (!isTurnPlayersPiece()) return;
 
