@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import Board from "../Board/Board";
 import PieceStand from "../PieceStand/PieceStand";
-import { PLAYER, PIECE_TYPE, SQUARE_STATUS, EMPTY_SQUARE } from "../utils/constants";
+import { PLAYER, PIECE_TYPE, SQUARE_STATUS, SQUARE, BOARD_SIZE_ROW } from "../utils/constants";
 import { calculateMovableSquare, clearSelectedOrMovableSquareStatus } from "../utils/helper";
 
 import "./Game.css";
@@ -36,265 +36,103 @@ const Game = () => {
   // 盤面の駒の配置情報
   const [boardPieces, setBoardPieces] = useState([
     [
-      {
-        player: PLAYER.P2,
-        pieceType: PIECE_TYPE.LANCE,
-        status: SQUARE_STATUS.NORMAL,
-      },
-      {
-        player: PLAYER.P2,
-        pieceType: PIECE_TYPE.KNIGHT,
-        status: SQUARE_STATUS.NORMAL,
-      },
-      {
-        player: PLAYER.P2,
-        pieceType: PIECE_TYPE.SILVER_GENERAL,
-        status: SQUARE_STATUS.NORMAL,
-      },
-      {
-        player: PLAYER.P2,
-        pieceType: PIECE_TYPE.GOLD_GENERAL,
-        status: SQUARE_STATUS.NORMAL,
-      },
-      {
-        player: PLAYER.P2,
-        pieceType: PIECE_TYPE.KING_P1,
-        status: SQUARE_STATUS.NORMAL,
-      },
-      {
-        player: PLAYER.P2,
-        pieceType: PIECE_TYPE.GOLD_GENERAL,
-        status: SQUARE_STATUS.NORMAL,
-      },
-      {
-        player: PLAYER.P2,
-        pieceType: PIECE_TYPE.SILVER_GENERAL,
-        status: SQUARE_STATUS.NORMAL,
-      },
-      {
-        player: PLAYER.P2,
-        pieceType: PIECE_TYPE.KNIGHT,
-        status: SQUARE_STATUS.NORMAL,
-      },
-      {
-        player: PLAYER.P2,
-        pieceType: PIECE_TYPE.LANCE,
-        status: SQUARE_STATUS.NORMAL,
-      },
+      new SQUARE(PLAYER.P2, PIECE_TYPE.LANCE),
+      new SQUARE(PLAYER.P2, PIECE_TYPE.KNIGHT),
+      new SQUARE(PLAYER.P2, PIECE_TYPE.SILVER_GENERAL),
+      new SQUARE(PLAYER.P2, PIECE_TYPE.GOLD_GENERAL),
+      new SQUARE(PLAYER.P2, PIECE_TYPE.KING_P2),
+      new SQUARE(PLAYER.P2, PIECE_TYPE.GOLD_GENERAL),
+      new SQUARE(PLAYER.P2, PIECE_TYPE.SILVER_GENERAL),
+      new SQUARE(PLAYER.P2, PIECE_TYPE.KNIGHT),
+      new SQUARE(PLAYER.P2, PIECE_TYPE.LANCE),
     ],
     [
-      new EMPTY_SQUARE(),
-      {
-        player: PLAYER.P2,
-        pieceType: PIECE_TYPE.ROOK,
-        status: SQUARE_STATUS.NORMAL,
-      },
-      new EMPTY_SQUARE(),
-      new EMPTY_SQUARE(),
-      new EMPTY_SQUARE(),
-      new EMPTY_SQUARE(),
-      new EMPTY_SQUARE(),
-      {
-        player: PLAYER.P2,
-        pieceType: PIECE_TYPE.BISHOP,
-        status: SQUARE_STATUS.NORMAL,
-      },
-      new EMPTY_SQUARE(),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
+      new SQUARE(PLAYER.P2, PIECE_TYPE.ROOK),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
+      new SQUARE(PLAYER.P2, PIECE_TYPE.BISHOP),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
     ],
     [
-      {
-        player: PLAYER.P2,
-        pieceType: PIECE_TYPE.PAWN,
-        status: SQUARE_STATUS.NORMAL,
-      },
-      {
-        player: PLAYER.P2,
-        pieceType: PIECE_TYPE.PAWN,
-        status: SQUARE_STATUS.NORMAL,
-      },
-      {
-        player: PLAYER.P2,
-        pieceType: PIECE_TYPE.PAWN,
-        status: SQUARE_STATUS.NORMAL,
-      },
-      {
-        player: PLAYER.P2,
-        pieceType: PIECE_TYPE.PAWN,
-        status: SQUARE_STATUS.NORMAL,
-      },
-      {
-        player: PLAYER.P2,
-        pieceType: PIECE_TYPE.PAWN,
-        status: SQUARE_STATUS.NORMAL,
-      },
-      {
-        player: PLAYER.P2,
-        pieceType: PIECE_TYPE.PAWN,
-        status: SQUARE_STATUS.NORMAL,
-      },
-      {
-        player: PLAYER.P2,
-        pieceType: PIECE_TYPE.PAWN,
-        status: SQUARE_STATUS.NORMAL,
-      },
-      {
-        player: PLAYER.P2,
-        pieceType: PIECE_TYPE.PAWN,
-        status: SQUARE_STATUS.NORMAL,
-      },
-      // デバッグのために一時的に歩を消しています
-      new EMPTY_SQUARE(),
-      // {
-      //   player: PLAYER.P2,
-      //   pieceType: PIECE_TYPE.PAWN,
-      //   status: SQUARE_STATUS.NORMAL,
-      // },
+      new SQUARE(PLAYER.P2, PIECE_TYPE.PAWN),
+      new SQUARE(PLAYER.P2, PIECE_TYPE.PAWN),
+      new SQUARE(PLAYER.P2, PIECE_TYPE.PAWN),
+      new SQUARE(PLAYER.P2, PIECE_TYPE.PAWN),
+      new SQUARE(PLAYER.P2, PIECE_TYPE.PAWN),
+      new SQUARE(PLAYER.P2, PIECE_TYPE.PAWN),
+      new SQUARE(PLAYER.P2, PIECE_TYPE.PAWN),
+      new SQUARE(PLAYER.P2, PIECE_TYPE.PAWN),
+      new SQUARE(PLAYER.P2, PIECE_TYPE.PAWN),
     ],
     [
-      new EMPTY_SQUARE(),
-      new EMPTY_SQUARE(),
-      new EMPTY_SQUARE(),
-      new EMPTY_SQUARE(),
-      new EMPTY_SQUARE(),
-      new EMPTY_SQUARE(),
-      new EMPTY_SQUARE(),
-      new EMPTY_SQUARE(),
-      new EMPTY_SQUARE(),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
     ],
     [
-      new EMPTY_SQUARE(),
-      new EMPTY_SQUARE(),
-      new EMPTY_SQUARE(),
-      new EMPTY_SQUARE(),
-      new EMPTY_SQUARE(),
-      new EMPTY_SQUARE(),
-      new EMPTY_SQUARE(),
-      new EMPTY_SQUARE(),
-      new EMPTY_SQUARE(),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
     ],
     [
-      new EMPTY_SQUARE(),
-      new EMPTY_SQUARE(),
-      new EMPTY_SQUARE(),
-      new EMPTY_SQUARE(),
-      new EMPTY_SQUARE(),
-      new EMPTY_SQUARE(),
-      new EMPTY_SQUARE(),
-      new EMPTY_SQUARE(),
-      new EMPTY_SQUARE(),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
     ],
     [
-      {
-        player: PLAYER.P1,
-        pieceType: PIECE_TYPE.PAWN,
-        status: SQUARE_STATUS.NORMAL,
-      },
-      {
-        player: PLAYER.P1,
-        pieceType: PIECE_TYPE.PAWN,
-        status: SQUARE_STATUS.NORMAL,
-      },
-      {
-        player: PLAYER.P1,
-        pieceType: PIECE_TYPE.PAWN,
-        status: SQUARE_STATUS.NORMAL,
-      },
-      {
-        player: PLAYER.P1,
-        pieceType: PIECE_TYPE.PAWN,
-        status: SQUARE_STATUS.NORMAL,
-      },
-      {
-        player: PLAYER.P1,
-        pieceType: PIECE_TYPE.PAWN,
-        status: SQUARE_STATUS.NORMAL,
-      },
-      {
-        player: PLAYER.P1,
-        pieceType: PIECE_TYPE.PAWN,
-        status: SQUARE_STATUS.NORMAL,
-      },
-      {
-        player: PLAYER.P1,
-        pieceType: PIECE_TYPE.PAWN,
-        status: SQUARE_STATUS.NORMAL,
-      },
-      {
-        player: PLAYER.P1,
-        pieceType: PIECE_TYPE.PAWN,
-        status: SQUARE_STATUS.NORMAL,
-      },
-      {
-        player: PLAYER.P1,
-        pieceType: PIECE_TYPE.PAWN,
-        status: SQUARE_STATUS.NORMAL,
-      },
+      new SQUARE(PLAYER.P1, PIECE_TYPE.PAWN),
+      new SQUARE(PLAYER.P1, PIECE_TYPE.PAWN),
+      new SQUARE(PLAYER.P1, PIECE_TYPE.PAWN),
+      new SQUARE(PLAYER.P1, PIECE_TYPE.PAWN),
+      new SQUARE(PLAYER.P1, PIECE_TYPE.PAWN),
+      new SQUARE(PLAYER.P1, PIECE_TYPE.PAWN),
+      new SQUARE(PLAYER.P1, PIECE_TYPE.PAWN),
+      new SQUARE(PLAYER.P1, PIECE_TYPE.PAWN),
+      new SQUARE(PLAYER.P1, PIECE_TYPE.PAWN),
     ],
     [
-      new EMPTY_SQUARE(),
-      {
-        player: PLAYER.P1,
-        pieceType: PIECE_TYPE.ROOK,
-        status: SQUARE_STATUS.NORMAL,
-      },
-      new EMPTY_SQUARE(),
-      new EMPTY_SQUARE(),
-      new EMPTY_SQUARE(),
-      new EMPTY_SQUARE(),
-      new EMPTY_SQUARE(),
-      {
-        player: PLAYER.P1,
-        pieceType: PIECE_TYPE.BISHOP,
-        status: SQUARE_STATUS.NORMAL,
-      },
-      new EMPTY_SQUARE(),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
+      new SQUARE(PLAYER.P1, PIECE_TYPE.BISHOP),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
+      new SQUARE(PLAYER.P1, PIECE_TYPE.ROOK),
+      new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE),
     ],
     [
-      {
-        player: PLAYER.P1,
-        pieceType: PIECE_TYPE.LANCE,
-        status: SQUARE_STATUS.NORMAL,
-      },
-      {
-        player: PLAYER.P1,
-        pieceType: PIECE_TYPE.KNIGHT,
-        status: SQUARE_STATUS.NORMAL,
-      },
-      {
-        player: PLAYER.P1,
-        pieceType: PIECE_TYPE.SILVER_GENERAL,
-        status: SQUARE_STATUS.NORMAL,
-      },
-      {
-        player: PLAYER.P1,
-        pieceType: PIECE_TYPE.GOLD_GENERAL,
-        status: SQUARE_STATUS.NORMAL,
-      },
-      {
-        player: PLAYER.P1,
-        pieceType: PIECE_TYPE.KING_P2,
-        status: SQUARE_STATUS.NORMAL,
-      },
-      {
-        player: PLAYER.P1,
-        pieceType: PIECE_TYPE.GOLD_GENERAL,
-        status: SQUARE_STATUS.NORMAL,
-      },
-      {
-        player: PLAYER.P1,
-        pieceType: PIECE_TYPE.SILVER_GENERAL,
-        status: SQUARE_STATUS.NORMAL,
-      },
-      {
-        player: PLAYER.P1,
-        pieceType: PIECE_TYPE.KNIGHT,
-        status: SQUARE_STATUS.NORMAL,
-      },
-      {
-        player: PLAYER.P1,
-        pieceType: PIECE_TYPE.LANCE,
-        status: SQUARE_STATUS.NORMAL,
-      },
+      new SQUARE(PLAYER.P1, PIECE_TYPE.LANCE),
+      new SQUARE(PLAYER.P1, PIECE_TYPE.KNIGHT),
+      new SQUARE(PLAYER.P1, PIECE_TYPE.SILVER_GENERAL),
+      new SQUARE(PLAYER.P1, PIECE_TYPE.GOLD_GENERAL),
+      new SQUARE(PLAYER.P1, PIECE_TYPE.KING_P1),
+      new SQUARE(PLAYER.P1, PIECE_TYPE.GOLD_GENERAL),
+      new SQUARE(PLAYER.P1, PIECE_TYPE.SILVER_GENERAL),
+      new SQUARE(PLAYER.P1, PIECE_TYPE.KNIGHT),
+      new SQUARE(PLAYER.P1, PIECE_TYPE.LANCE),
     ],
   ]);
   // Player1の駒置き場
@@ -314,17 +152,20 @@ const Game = () => {
   // #endregion
   // #region 内部変数
   function updateBoardPieces(fromLocation, toLocation) {
+
+    const clickedPiece = boardPieces[toLocation[0]][toLocation[1]];
+
     // 移動先に駒がある時の処理
     if (boardPieces[toLocation[0]][toLocation[1]].pieceType !== PIECE_TYPE.NONE) {
       if (boardPieces[toLocation[0]][toLocation[1]].player === PLAYER.P1) {
         player2Pieces.push({
-          ...boardPieces[toLocation[0]][toLocation[1]],
+          ...clickedPiece,
           player: PLAYER.P2,
           status: SQUARE_STATUS.NORMAL,
         });
       } else {
         player1Pieces.push({
-          ...boardPieces[toLocation[0]][toLocation[1]],
+          ...clickedPiece,
           player: PLAYER.P1,
           status: SQUARE_STATUS.NORMAL,
         });
@@ -333,9 +174,23 @@ const Game = () => {
 
     // 駒の移動
     boardPieces[toLocation[0]][toLocation[1]] = boardPieces[fromLocation[0]][fromLocation[1]];
-    boardPieces[fromLocation[0]][fromLocation[1]] = new EMPTY_SQUARE();
+    boardPieces[fromLocation[0]][fromLocation[1]] = new SQUARE(PLAYER.NONE, PIECE_TYPE.NONE);
 
     clearSelectedOrMovableSquareStatus(boardPieces);
+
+    // どちらかの王が取られた時点でゲームを終了する
+    if (clickedPiece.pieceType === PIECE_TYPE.KING_P1 || clickedPiece.pieceType === PIECE_TYPE.KING_P2) {
+      alert(`${turnPlayer}の勝ちです!`);
+      setFinishesGame(true);
+      return;
+    }
+
+    // 成り判定
+    const movePiece = boardPieces[toLocation[0]][toLocation[1]];
+    if((!movePiece.isPromoted) && (turnPlayer === PLAYER.P1 ? toLocation[0] < 3 : toLocation[0] >= BOARD_SIZE_ROW - 3)){
+      var promotes = window.confirm("成りますか?");
+      movePiece.isPromoted = promotes;
+    }
 
     setBoardPieces(boardPieces);
     setPlayer1Pieces(player1Pieces);
@@ -363,7 +218,7 @@ const Game = () => {
       
       // どちらかの王が取られた時点でゲーム終了とする
       if(clickedPiece.pieceType === PIECE_TYPE.KING_P1 || clickedPiece.pieceType === PIECE_TYPE.KING_P2){
-        alert(`${turnPlayer}の勝ちで�?`);
+        alert(`${turnPlayer}の勝ちです`);
         setFinishesGame(true);
         return;
       }
@@ -371,7 +226,7 @@ const Game = () => {
       setTurnPlayer(turnPlayer === PLAYER.P1 ? PLAYER.P2: PLAYER.P1);
     } 
     else {
-      if(clickedPiece.player == PLAYER.NONE){
+      if(clickedPiece.player === PLAYER.NONE){
         // 駒がないマスを選択した場合、選択をキャンセルする
         clearSelectedOrMovableSquareStatus(boardPieces);
         setSelectedPieceLocation(null);

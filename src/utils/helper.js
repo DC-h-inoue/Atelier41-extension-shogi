@@ -105,25 +105,47 @@ export function calculateMovableSquare(boardPieces, rowIndex, columnIndex) {
       movableCoordinates = getPointCoordinate(MOVABLE_DIRECTIONS.KING);
       break;
     case PIECE_TYPE.PAWN:
-      movableCoordinates = getPointCoordinate(MOVABLE_DIRECTIONS.PAWN);
+      if (boardPiece.isPromoted) {
+        movableCoordinates = getPointCoordinate(MOVABLE_DIRECTIONS.GOLD_GENERAL);
+      } else {
+        movableCoordinates = getPointCoordinate(MOVABLE_DIRECTIONS.PAWN);
+      }
       break;
     case PIECE_TYPE.GOLD_GENERAL:
       movableCoordinates = getPointCoordinate(MOVABLE_DIRECTIONS.GOLD_GENERAL);
       break;
     case PIECE_TYPE.SILVER_GENERAL:
-      movableCoordinates = getPointCoordinate(MOVABLE_DIRECTIONS.SILVER_GENERAL);
+      if (boardPiece.isPromoted) {
+        movableCoordinates = getPointCoordinate(MOVABLE_DIRECTIONS.GOLD_GENERAL);
+      } else {
+        movableCoordinates = getPointCoordinate(MOVABLE_DIRECTIONS.SILVER_GENERAL);
+      }
       break;
     case PIECE_TYPE.KNIGHT:
-      movableCoordinates = getPointCoordinate(MOVABLE_DIRECTIONS.KNIGHT);
+      if (boardPiece.isPromoted) {
+        movableCoordinates = getPointCoordinate(MOVABLE_DIRECTIONS.GOLD_GENERAL);
+      } else {
+        movableCoordinates = getPointCoordinate(MOVABLE_DIRECTIONS.KNIGHT);
+      }
       break;
     case PIECE_TYPE.ROOK:
       movableCoordinates = getLineCoordinates(MOVABLE_DIRECTIONS.ROOK);
+      if (boardPiece.isPromoted) {
+        movableCoordinates = movableCoordinates.concat(getPointCoordinate(MOVABLE_DIRECTIONS.KING));
+      }
       break;
     case PIECE_TYPE.BISHOP:
       movableCoordinates = getLineCoordinates(MOVABLE_DIRECTIONS.BISHOP);
+      if (boardPiece.isPromoted) {
+        movableCoordinates = movableCoordinates.concat(getPointCoordinate(MOVABLE_DIRECTIONS.KING));
+      }
       break;
     case PIECE_TYPE.LANCE:
-      movableCoordinates = getLineCoordinates(MOVABLE_DIRECTIONS.LANCE);
+      if (boardPiece.isPromoted) {
+        movableCoordinates = getPointCoordinate(MOVABLE_DIRECTIONS.GOLD_GENERAL);
+      } else {
+        movableCoordinates = getLineCoordinates(MOVABLE_DIRECTIONS.LANCE);
+      }
       break;
     default:
       break;
