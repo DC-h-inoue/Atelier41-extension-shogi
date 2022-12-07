@@ -23,7 +23,7 @@ import "./PieceStand.css";
  * @param {Player} player 駒置き場のプレーヤー情報
  * @return 駒置き場を表すJSX要素
  */
-const PieceStand = ({ className, pieces }) => {
+const PieceStand = ({ className, pieces, onPieceClick }) => {
   // #region state変数
   // #endregion
   // #region 内部変数
@@ -40,7 +40,7 @@ const PieceStand = ({ className, pieces }) => {
   return (
     <div className={classNames("shogi_piece-stand", className)}>
       {pieces.map((piece, index) => (
-        <Piece key={index} className="piece-item" piece={piece} rowIndex={-1} columnIndex={-1} />
+        <Piece key={index} className="piece-item" piece={piece} onPieceClick={onPieceClick(pieces, index)} />
       ))}
     </div>
   );

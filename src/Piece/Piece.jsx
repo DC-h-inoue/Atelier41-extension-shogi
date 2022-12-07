@@ -21,7 +21,7 @@ import "./Piece.css";
  * @param {number?} boardSquareIndex マスの位置情報
  * @return 駒を表すJSX要素
  */
-const Piece = ({ className, piece, rowIndex, columnIndex, onPieceClick }) => {
+const Piece = ({ className, piece, onPieceClick }) => {
   // #region state変数
   // #endregion
   // #region 内部変数
@@ -42,9 +42,9 @@ const Piece = ({ className, piece, rowIndex, columnIndex, onPieceClick }) => {
           "can-move-piece": piece?.status === SQUARE_STATUS.CAN_MOVE,
           "clicked-piece": piece?.status === SQUARE_STATUS.CLICKED,
         },
-        piece?.isPromoted ? "promoted" : "",
+        piece?.isPromoted ? "promoted" : ""
       )}
-      onClick={() => onPieceClick(rowIndex, columnIndex)}
+      onClick={onPieceClick}
     >
       {DISPLAYNAME(piece)}
     </button>
