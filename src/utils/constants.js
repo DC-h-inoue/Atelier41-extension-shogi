@@ -1,7 +1,6 @@
 export const PLAYER = {
   P1: "Player1",
   P2: "Player2",
-  NONE: "none",
 };
 
 export const PIECE_TYPE = {
@@ -14,22 +13,27 @@ export const PIECE_TYPE = {
   KNIGHT: "桂",
   LANCE: "香",
   PAWN: "歩",
-  NONE: "",
 };
 
 export function DISPLAYNAME(piece) {
-  if(!piece.isPromoted) return piece.pieceType;
-  switch (piece.pieceType)
-  {
-    case PIECE_TYPE.PAWN: return "と";
-    case PIECE_TYPE.KNIGHT:return "圭";
-    case PIECE_TYPE.LANCE:return "杏";
-    case PIECE_TYPE.SILVER_GENERAL:return "全";
-    case PIECE_TYPE.ROOK:return "竜";
-    case PIECE_TYPE.BISHOP:return "馬";
-    default: return piece.pieceType;
-  }    
-};
+  if (!piece.isPromoted) return piece.pieceType;
+  switch (piece.pieceType) {
+    case PIECE_TYPE.PAWN:
+      return "と";
+    case PIECE_TYPE.KNIGHT:
+      return "圭";
+    case PIECE_TYPE.LANCE:
+      return "杏";
+    case PIECE_TYPE.SILVER_GENERAL:
+      return "全";
+    case PIECE_TYPE.ROOK:
+      return "竜";
+    case PIECE_TYPE.BISHOP:
+      return "馬";
+    default:
+      return piece.pieceType;
+  }
+}
 
 export const SQUARE_STATUS = {
   NORMAL: "normal",
@@ -37,9 +41,23 @@ export const SQUARE_STATUS = {
   CAN_MOVE: "can_move",
 };
 
+export const PIECE_STATUS = {
+  ON_BOARD: "on_board",
+  ON_STAND: "on_stand",
+};
+
 export const BOARD_SIZE_ROW = 9;
 export const BOARD_SIZE_COLUMN = 9;
 
+// T.B.D. SQUAREのデータを以下の形式に変更する
+// {
+//   piece: {
+//     player: PLAYER.P1,
+//     pieceType: PIECE_TYPE.LANCE,
+//     pieceStatus: PIECE_STATUS.ON_BOARD,
+//   },
+//   squareStatus: SQUARE_STATUS.NORMAL,
+// },
 export function SQUARE(player, pieceType) {
   this.player = player;
   this.pieceType = pieceType;
@@ -72,33 +90,10 @@ export const MOVABLE_DIRECTIONS = {
     DIRECTION.LEFT_UP,
   ],
   LANCE: [DIRECTION.UP],
-  ROOK: [
-    DIRECTION.UP,
-    DIRECTION.RIGHT,
-    DIRECTION.DOWN,
-    DIRECTION.LEFT,
-  ],
-  BISHOP: [
-    DIRECTION.RIGHT_UP,
-    DIRECTION.RIGHT_DOWN,
-    DIRECTION.LEFT_DOWN,
-    DIRECTION.LEFT_UP,
-  ],
-  GOLD_GENERAL: [
-    DIRECTION.UP,
-    DIRECTION.RIGHT_UP,
-    DIRECTION.RIGHT,
-    DIRECTION.DOWN,
-    DIRECTION.LEFT,
-    DIRECTION.LEFT_UP,
-  ],
-  SILVER_GENERAL:  [
-    DIRECTION.UP,
-    DIRECTION.RIGHT_UP,
-    DIRECTION.RIGHT_DOWN,
-    DIRECTION.LEFT_DOWN,
-    DIRECTION.LEFT_UP,
-  ],
+  ROOK: [DIRECTION.UP, DIRECTION.RIGHT, DIRECTION.DOWN, DIRECTION.LEFT],
+  BISHOP: [DIRECTION.RIGHT_UP, DIRECTION.RIGHT_DOWN, DIRECTION.LEFT_DOWN, DIRECTION.LEFT_UP],
+  GOLD_GENERAL: [DIRECTION.UP, DIRECTION.RIGHT_UP, DIRECTION.RIGHT, DIRECTION.DOWN, DIRECTION.LEFT, DIRECTION.LEFT_UP],
+  SILVER_GENERAL: [DIRECTION.UP, DIRECTION.RIGHT_UP, DIRECTION.RIGHT_DOWN, DIRECTION.LEFT_DOWN, DIRECTION.LEFT_UP],
   KNIGHT: [DIRECTION.KNIGHT_LEFT, DIRECTION.KNIGHT_RIGHT],
   PAWN: [DIRECTION.UP],
 };

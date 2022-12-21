@@ -1,5 +1,13 @@
 import { BOARD_SIZE_COLUMN, BOARD_SIZE_ROW, MOVABLE_DIRECTIONS, PIECE_TYPE, PLAYER, SQUARE_STATUS } from "./constants";
 
+export function calculateMovableSquareFromStand(boardPieces, clickedPiece) {
+  return boardPieces.map((boardPiecesRow) => {
+    return boardPiecesRow.map((boardPiece) => {
+      return boardPiece.pieceType === PIECE_TYPE.NONE ? { ...boardPiece, status: SQUARE_STATUS.CAN_MOVE } : boardPiece;
+    });
+  });
+}
+
 export function calculateMovableSquare(boardPieces, rowIndex, columnIndex) {
   const boardPiece = boardPieces[rowIndex][columnIndex];
   const piecePlayer = boardPiece.player;
@@ -94,7 +102,7 @@ export function calculateMovableSquare(boardPieces, rowIndex, columnIndex) {
     return movableCoordinates;
   }
 
-  clearSelectedOrMovableSquareStatus(boardPieces);
+  clearSquareStatus(boardPieces);
   boardPiece.status = SQUARE_STATUS.CLICKED;
 
   let movableCoordinates;
@@ -159,7 +167,7 @@ export function calculateMovableSquare(boardPieces, rowIndex, columnIndex) {
 }
 
 // 選択中もしくは移動可能なマスのステータスをリセットする
-export function clearSelectedOrMovableSquareStatus(boardPieces) {
+export function clearSquareStatus(boardPieces) {
   boardPieces.forEach((boardPiecesRow) => {
     boardPiecesRow.forEach((boardPiece) => {
       if (boardPiece.status === SQUARE_STATUS.CAN_MOVE || boardPiece.status === SQUARE_STATUS.CLICKED)

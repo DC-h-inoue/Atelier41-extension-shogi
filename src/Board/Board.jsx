@@ -33,19 +33,17 @@ const Board = ({ className, boardPieces, onPieceClick }) => {
   // #region レンダリング処理
   return (
     <div className={classNames("shogi_board", className)}>
-      {boardPieces.map((row, rowIndex) => {
-        return row.map((square, columnIndex) => {
-          return (
-            <Square
-              square={square}
-              rowIndex={rowIndex}
-              columnIndex={columnIndex}
-              onPieceClick={onPieceClick}
-              key={columnIndex}
-            />
-          );
-        });
-      })}
+      {boardPieces.map((row, rowIndex) =>
+        row.map((square, columnIndex) => (
+          <Square
+            square={square}
+            rowIndex={rowIndex}
+            columnIndex={columnIndex}
+            onPieceClick={onPieceClick}
+            key={columnIndex}
+          />
+        ))
+      )}
     </div>
   );
   // #endregion

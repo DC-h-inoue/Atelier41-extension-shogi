@@ -34,7 +34,12 @@ const Square = ({ square, rowIndex, columnIndex, onPieceClick }) => {
   // 盤面のマスに駒が置かれている場合は駒を描画するJSX要素を返す
   return (
     <div className="gg_square">
-      {<Piece piece={square} rowIndex={rowIndex} columnIndex={columnIndex} onPieceClick={onPieceClick} />}
+      <Piece
+        piece={square}
+        rowIndex={rowIndex}
+        columnIndex={columnIndex}
+        onPieceClick={onPieceClick(rowIndex, columnIndex)}
+      />
     </div>
   );
   // #endregion
